@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+  <h2> Course list </h2>
+{% endblock %}
+
+{% block content %}
+
+    {% if book_list %}
+    <ul>
+
+
+      <div class="row row-cols-md-5 mb-3 text-center">
+          {% if is_paginated %}
+            {% if page_obj.has_previous %}
+            <div class="col">
+              <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+                <button class="learn-more" style="transform: rotate(180deg);">
+                  <span class="circle" aria-hidden="true">
+                    <span class="icon arrow"></span>
+                  </span>
+                </button>
+              </a>
+              </div>
+            {% endif %}
+            {% for book in book_list %}
+              <div class="col">
+                <div class="card">
+                 <div class="card-body">
+                    <li>
+                      <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+                    </li>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <div class="col">
+                <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                  <button class="learn-more" style="transform: rotate(0deg);">
+                    <span class="circle" aria-hidden="true">
+                      <span class="icon arrow"></span>
+                    </span>
+                  </button>
+                </a>
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
+
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}
+
+{% endblock %}
