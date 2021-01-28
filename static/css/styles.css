@@ -2,7 +2,6 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 body.loaded {
   overflow-y: auto;
@@ -120,4 +119,14 @@ body.loaded {
 
 body {
   background: #eee;
+}
+
+#main  {
+    padding-top: calc(70px);
+}
+
+@media (min-width: 992px) {
+    #main {
+      padding-top: calc(104px);
+    }
 }

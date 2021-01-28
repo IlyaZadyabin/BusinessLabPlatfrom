@@ -1,21 +1,67 @@
 {% extends "base.html" %}
 
+
 {% block content_title %}
-  <h1>Local Library Home</h1>
+    <div class="text-center">
+      <h2> News </h2>
+    </div>
 {% endblock %}
 
+
 {% block content %}
+<main>
+      {% if book_list %}
 
-  <p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
 
-<h2>Dynamic content</h2>
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+          <div class="col">
+            <div class="card mb-4" style="margin-top: 1rem;">
+            <div class="card-header">
+              <h4 class="my-0 fw-normal">Запрос</h4>
+            </div>
+            <div class="card-body">
+              <form action="" method="post">
+                {% csrf_token %}
+              <ul class="list-unstyled mt-3 mb-4">
+                <div class="input-group">
+                  <span class="input-group-text">City</span>
+                  <input>
+                  <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </ul>
+              <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Запросить новый курс</button>
+              </form>
+            </div>
+          </div>
+          </div>
+          <div class="col">
+            <div class="card mb-4" style="margin-top: 1rem;">
+            <div class="card-header">
+              <h4 class="my-0 fw-normal">Объявления</h4>
+            </div>
+            </div>
+            {% for book_list_k in book_list %}
+                    {% for book in book_list_k.books %}
+                      <div class="alert alert-info">
+                        <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+                            <li>
+                              <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+                            </li>
+                        </div>
+                      </div>
+                    {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+        </div>
 
-  <p>The library has the following record counts:</p>
-  <ul>
-    <li><strong>Books:</strong> {{ num_books }}</li>
-    <li><strong>Copies:</strong> {{ num_instances }}</li>
-    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
-    <li><strong>Authors:</strong> {{ num_authors }}</li>
-  </ul>
+      {% else %}
+        <p>There are no books in the library.</p>
+      {% endif %}
+    </main>
+
 
 {% endblock %}

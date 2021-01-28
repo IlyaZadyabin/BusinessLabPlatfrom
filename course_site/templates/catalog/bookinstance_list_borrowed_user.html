@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
+{% block content_title %}
+  <h2> My courses </h2>
+{% endblock %}
+
 {% block content %}
+<div class="row">
+  <div class="container">
     <h1>Borrowed books</h1>
 
     {% if bookinstance_list %}
@@ -16,4 +22,6 @@
     {% else %}
       <p>There are no books borrowed.</p>
     {% endif %}
+  </div>
+</div>
 {% endblock %}

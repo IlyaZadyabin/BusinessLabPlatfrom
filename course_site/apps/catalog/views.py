@@ -7,11 +7,37 @@ from .forms import UserRegisterForm, LoginAuthForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.core.paginator import Paginator
+
+
+def book_list_view(request):
+    book_list = Book.objects.all()
+
+    k = 0
+    active = True
+    new_book_list = []
+    for i in range(0, len(book_list), 3):
+        book_k = []
+        for j in range(i, i+3):
+            if (j >= len(book_list)):
+                break
+
+            book_k.append(book_list[j])
+        book_list_k = {
+            'books': book_k,
+            'active': active
+        }
+        if active:
+            active = False
+        new_book_list.append(book_list_k)
+
+    context = {'book_list': new_book_list}
+
+    return render(request, 'catalog/book_list.html', context=context)
 
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 3
     # /books/?page=2 - для перехода
 
 class BookDetailView(generic.DetailView):
@@ -41,6 +67,31 @@ def author_detail(request, pk):
     return render(request, 'catalog/author_detail.html', context=context)
 
 def index(request):
+    book_list = Book.objects.all()
+
+    k = 0
+    active = True
+    new_book_list = []
+    for i in range(0, len(book_list), 3):
+        book_k = []
+        for j in range(i, i+3):
+            if (j >= len(book_list)):
+                break
+
+            book_k.append(book_list[j])
+        book_list_k = {
+            'books': book_k,
+            'active': active
+        }
+        if active:
+            active = False
+        new_book_list.append(book_list_k)
+
+    context = {'book_list': new_book_list}
+
+    return render(request, 'index.html', context=context)
+
+def index2(request):
     """
     Функция отображения для домашней страницы сайта.
     """
@@ -96,3 +147,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('index')
+
+def update_variable(value):
+    data = value
+    return data
