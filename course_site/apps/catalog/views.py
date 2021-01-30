@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 
+def user_room(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, "users/user_room.html")
 
 def book_list_view(request):
     book_list = Book.objects.all()
@@ -118,7 +122,7 @@ def register_view(request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            print(form)
+            # print(form)
             username = request.POST["username"]
             password = request.POST["password1"]
             user = authenticate(request, username=username, password=password)
@@ -138,10 +142,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')
+            return redirect('user_room')
     else:
         form = LoginAuthForm()
-
     return render(request, 'registration/login.html', {"form": form})
 
 def logout_view(request):
