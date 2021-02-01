@@ -7,16 +7,16 @@
 {% block content %}
 <div class="row">
   <div class="container">
-  <p><strong>Author:</strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></p> <!-- author detail link not yet defined -->
-  <p><strong>Summary:</strong> {{ book.summary }}</p>
-  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-  <p><strong>Language:</strong> {{ book.language }}</p>
-  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  <p><strong>Author:</strong> <a href="{{ course.author.get_absolute_url }}">{{ course.author }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>Summary:</strong> {{ course.summary }}</p>
+  <p><strong>ISBN:</strong> {{ course.isbn }}</p>
+  <p><strong>Language:</strong> {{ course.language }}</p>
+  <p><strong>Genre:</strong> {% for genre in course.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 
   <div style="margin-left:20px;margin-top:20px">
     <h4>Copies</h4>
 
-    {% for copy in book.bookinstance_set.all %}
+    {% for copy in course.courseinstance_set.all %}
     <hr>
     <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
     {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
@@ -25,7 +25,7 @@
     {% endfor %}
   </div>
 
-  <form action="{% url 'add_loan' book_id=book.id %}" method="GET">
+  <form action="{% url 'participate_in_course' course_id=course.id %}" method="GET">
         <input type="submit" value="Participate in course">
     </form>
 

@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .models import Book, Author, Genre
+from .models import Course, Author, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -17,49 +17,49 @@ def user_room(request):
     return render(request, "users/user_room.html")
 
 
-def book_list_view(request):
-    book_list = Book.objects.all()
+def course_list_view(request):
+    course_list = Course.objects.all()
 
     k = 0
     active = True
-    new_book_list = []
-    for i in range(0, len(book_list), 3):
-        book_k = []
+    new_course_list = []
+    for i in range(0, len(course_list), 3):
+        course_k = []
         for j in range(i, i + 3):
-            if (j >= len(book_list)):
+            if (j >= len(course_list)):
                 break
 
-            book_k.append(book_list[j])
-        book_list_k = {
-            'books': book_k,
+            course_k.append(course_list[j])
+        course_list_k = {
+            'courses': course_k,
             'active': active
         }
         if active:
             active = False
-        new_book_list.append(book_list_k)
+        new_course_list.append(course_list_k)
 
-    context = {'book_list': new_book_list}
+    context = {'course_list': new_course_list}
 
-    return render(request, 'catalog/book_list.html', context=context)
-
-
-class BookListView(generic.ListView):
-    model = Book
-    # /books/?page=2 - для перехода
+    return render(request, 'catalog/course_list.html', context=context)
 
 
-class BookDetailView(generic.DetailView):
-    model = Book
+class CourseListView(generic.ListView):
+    model = Course
+    # /courses/?page=2 - для перехода
 
 
-class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
-    """Generic class-based view listing books on loan to current user."""
-    model = Book
-    template_name = 'catalog/book_list_borrowed_user.html'
+class CourseDetailView(generic.DetailView):
+    model = Course
+
+
+class LoanedCoursesByUserListView(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view listing courses on loan to current user."""
+    model = Course
+    template_name = 'catalog/course_list_borrowed_user.html'
     paginate_by = 10
 
     def get_queryset(self):
-        return Book.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return Course.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 
 def authors_list(request):
@@ -79,27 +79,27 @@ def author_detail(request, pk):
 
 
 def index(request):
-    book_list = Book.objects.all()
+    course_list = Course.objects.all()
 
     k = 0
     active = True
-    new_book_list = []
-    for i in range(0, len(book_list), 3):
-        book_k = []
+    new_course_list = []
+    for i in range(0, len(course_list), 3):
+        course_k = []
         for j in range(i, i + 3):
-            if (j >= len(book_list)):
+            if (j >= len(course_list)):
                 break
 
-            book_k.append(book_list[j])
-        book_list_k = {
-            'books': book_k,
+            course_k.append(course_list[j])
+        course_list_k = {
+            'courses': course_k,
             'active': active
         }
         if active:
             active = False
-        new_book_list.append(book_list_k)
+        new_course_list.append(course_list_k)
 
-    context = {'book_list': new_book_list}
+    context = {'course_list': new_course_list}
 
     return render(request, 'index.html', context=context)
 
@@ -109,7 +109,7 @@ def index2(request):
     Функция отображения для домашней страницы сайта.
     """
     # Генерация "количеств" некоторых главных объектов
-    num_books = Book.objects.all().count()
+    num_courses = Course.objects.all().count()
   # num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
    # num_instances_available = BookInstance.objects.filter(status__exact='a').count()
@@ -119,7 +119,7 @@ def index2(request):
     # переменной контекста context
 
     context = {
-        'num_books': num_books,
+        'num_courses': num_courses,
         #'num_instances': num_instances,
         #'num_instances_available': num_instances_available,
         'num_authors': num_authors
@@ -169,9 +169,9 @@ def update_variable(value):
     return data
 
 
-def add_loan(request, book_id):  # function is state of developing
-    record = Book.objects.get(id=book_id)
+def participate_in_course(request, course_id):  # function is state of developing
+    record = Course.objects.get(id=course_id)
     record.status = 'o'
     record.borrower = request.user
     record.save()
-    return HttpResponseRedirect('/book/' + str(book_id))
+    return HttpResponseRedirect('/course/' + str(course_id))

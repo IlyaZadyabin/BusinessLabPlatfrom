@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
-import uuid # Required for unique book instances
+import uuid # Required for unique course instances
 from django.contrib.auth.models import User
 from datetime import date
 
@@ -17,7 +17,7 @@ class Genre(models.Model):
         """
         return self.name
 
-class Book(models.Model):
+class Course(models.Model):
     """
     Model representing a book (but not a specific copy of a book).
     """
@@ -64,7 +64,7 @@ class Book(models.Model):
         """
         Returns the url to access a particular book instance.
         """
-        return reverse('book-detail', args=[str(self.id)])
+        return reverse('course-detail', args=[str(self.id)])
 
 # class BookInstance(models.Model):
 #     """
@@ -126,7 +126,7 @@ class Author(models.Model):
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
-                            help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
+                            help_text="Enter the coursec's natural language (e.g. English, French, Japanese etc.)")
 
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""

@@ -10,7 +10,7 @@
 
 {% block content %}
 <main>
-      {% if book_list %}
+      {% if course_list %}
 
 
       <div class="container">
@@ -43,12 +43,12 @@
               <h4 class="my-0 fw-normal">Объявления</h4>
             </div>
             </div>
-            {% for book_list_k in book_list %}
-                    {% for book in book_list_k.books %}
+            {% for course_list_k in course_list %}
+                    {% for course in course_list_k.courses %}
                       <div class="alert alert-info">
                         <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
                             <li>
-                              <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+                              <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.author}})
                             </li>
                         </div>
                       </div>
@@ -59,7 +59,7 @@
         </div>
 
       {% else %}
-        <p>There are no books in the library.</p>
+        <p>There are no courses in the catalog.</p>
       {% endif %}
     </main>
 

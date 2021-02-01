@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content_title %}
+  <h2> My courses </h2>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="container">
+
+    {% if course_list %}
+    <ul>
+
+      {% for course in course_list %}
+      <li class="{% if course.is_overdue %}text-danger{% endif %}">
+        <a href="{% url 'course-detail' course.id %}">{{course.title}}</a> ({{ course.due_back }})
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>You didn't participate in any course.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

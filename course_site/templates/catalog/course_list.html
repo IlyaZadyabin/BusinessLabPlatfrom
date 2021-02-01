@@ -9,20 +9,20 @@
 {% block content %}
 <div class="row">
   <div class="container">
-    {% if book_list %}
+    {% if course_list %}
 
       <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <div class="carousel-inner">
-            {% for book_list_k in book_list %}
-              {% if book_list_k.active %}
+            {% for course_list_k in course_list %}
+              {% if course_list_k.active %}
                 <div class="carousel-item active">
                   <div class="row">
-                    {% for book in book_list_k.books %}
+                    {% for course in course_list_k.courses %}
                       <div class="col">
                         <div class="card" style="margin-top: 1em; height:15rem;">
                          <div class="card-body">
                             <li>
-                              <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+                              <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.author}})
                             </li>
                           </div>
                         </div>
@@ -33,12 +33,12 @@
               {% else %}
                 <div class="carousel-item">
                   <div class="row">
-                    {% for book in book_list_k.books %}
+                    {% for course in course_list_k.courses %}
                       <div class="col">
                         <div class="card" style="margin-top: 1em; height:15rem;">
                          <div class="card-body">
                             <li>
-                              <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+                              <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.author}})
                             </li>
                           </div>
                         </div>
@@ -72,7 +72,7 @@
     </div>
 
     {% else %}
-      <p>There are no books in the library.</p>
+      <p>There are no courses in the catalog.</p>
     {% endif %}
   </div>
 </div>
