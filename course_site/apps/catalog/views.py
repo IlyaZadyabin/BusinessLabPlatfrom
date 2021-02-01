@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -54,12 +54,12 @@ class BookDetailView(generic.DetailView):
 
 class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing books on loan to current user."""
-    model = BookInstance
-    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    model = Book
+    template_name = 'catalog/book_list_borrowed_user.html'
     paginate_by = 10
 
     def get_queryset(self):
-        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        return Book.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
 
 
 def authors_list(request):
@@ -110,9 +110,9 @@ def index2(request):
     """
     # Генерация "количеств" некоторых главных объектов
     num_books = Book.objects.all().count()
-    num_instances = BookInstance.objects.all().count()
+  # num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
-    num_instances_available = BookInstance.objects.filter(status__exact='a').count()
+   # num_instances_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors = Author.objects.count()  # Метод 'all()' применен по умолчанию.
 
     # Отрисовка HTML-шаблона index.html с данными внутри
@@ -120,8 +120,8 @@ def index2(request):
 
     context = {
         'num_books': num_books,
-        'num_instances': num_instances,
-        'num_instances_available': num_instances_available,
+        #'num_instances': num_instances,
+        #'num_instances_available': num_instances_available,
         'num_authors': num_authors
     }
     return render(request, 'index.html', context=context)
@@ -169,6 +169,6 @@ def update_variable(value):
     return data
 
 
-def add_loan(request, book_url):
-    
+def add_loan(request, book_url):  # function is state of developing
+
     return HttpResponseRedirect('/books')

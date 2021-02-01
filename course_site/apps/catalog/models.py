@@ -21,6 +21,7 @@ class Book(models.Model):
     """
     Model representing a book (but not a specific copy of a book).
     """
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     # Foreign Key used because book can only have one author, but authors can have multiple books
@@ -31,26 +32,7 @@ class Book(models.Model):
     # ManyToManyField used because genre can contain many books. Books can cover many genres.
     # Genre class has already been defined so we can specify the object above.
 
-    def __str__(self):
-        """
-        String for representing the Model object.
-        """
-        return self.title
-
-
-    def get_absolute_url(self):
-        """
-        Returns the url to access a particular book instance.
-        """
-        return reverse('book-detail', args=[str(self.id)])
-
-class BookInstance(models.Model):
-    """
-    Model representing a specific copy of a book (i.e. that can be borrowed from the library).
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
-    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-    imprint = models.CharField(max_length=200)
+    imprint = models.CharField(default='m', max_length=200)
     due_back = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -66,18 +48,58 @@ class BookInstance(models.Model):
     class Meta:
         ordering = ["due_back"]
 
-
     def __str__(self):
         """
         String for representing the Model object
         """
-        return '%s (%s)' % (self.id,self.book.title)
+        return '%s (%s)' % (self.id, self.title)
 
     @property
     def is_overdue(self):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
+
+    def get_absolute_url(self):
+        """
+        Returns the url to access a particular book instance.
+        """
+        return reverse('book-detail', args=[str(self.id)])
+
+# class BookInstance(models.Model):
+#     """
+#     Model representing a specific copy of a book (i.e. that can be borrowed from the library).
+#     """
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
+#     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+#     imprint = models.CharField(max_length=200)
+#     due_back = models.DateField(null=True, blank=True)
+#     borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+#
+#     LOAN_STATUS = (
+#         ('m', 'Maintenance'),
+#         ('o', 'On loan'),
+#         ('a', 'Available'),
+#         ('r', 'Reserved'),
+#     )
+#
+#     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+#
+#     class Meta:
+#         ordering = ["due_back"]
+#
+#
+#     def __str__(self):
+#         """
+#         String for representing the Model object
+#         """
+#         return '%s (%s)' % (self.id,self.book.title)
+#
+#     @property
+#     def is_overdue(self):
+#         if self.due_back and date.today() > self.due_back:
+#             return True
+#         return False
 
 class Author(models.Model):
     """
