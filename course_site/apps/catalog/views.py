@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
@@ -9,10 +10,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 
+
 def user_room(request):
     if not request.user.is_authenticated:
         return redirect('login')
     return render(request, "users/user_room.html")
+
 
 def book_list_view(request):
     book_list = Book.objects.all()
@@ -22,7 +25,7 @@ def book_list_view(request):
     new_book_list = []
     for i in range(0, len(book_list), 3):
         book_k = []
-        for j in range(i, i+3):
+        for j in range(i, i + 3):
             if (j >= len(book_list)):
                 break
 
@@ -44,17 +47,20 @@ class BookListView(generic.ListView):
     model = Book
     # /books/?page=2 - для перехода
 
+
 class BookDetailView(generic.DetailView):
     model = Book
 
-class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
+
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
     """Generic class-based view listing books on loan to current user."""
     model = BookInstance
-    template_name ='catalog/bookinstance_list_borrowed_user.html'
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
     paginate_by = 10
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
 
 def authors_list(request):
     authors = Author.objects.all()
@@ -63,12 +69,14 @@ def authors_list(request):
     }
     return render(request, 'catalog/author_list.html', context=context)
 
+
 def author_detail(request, pk):
-    author = Author.objects.all()[pk-1]
+    author = Author.objects.all()[pk - 1]
     context = {
         'author': author
     }
     return render(request, 'catalog/author_detail.html', context=context)
+
 
 def index(request):
     book_list = Book.objects.all()
@@ -78,7 +86,7 @@ def index(request):
     new_book_list = []
     for i in range(0, len(book_list), 3):
         book_k = []
-        for j in range(i, i+3):
+        for j in range(i, i + 3):
             if (j >= len(book_list)):
                 break
 
@@ -95,27 +103,29 @@ def index(request):
 
     return render(request, 'index.html', context=context)
 
+
 def index2(request):
     """
     Функция отображения для домашней страницы сайта.
     """
     # Генерация "количеств" некоторых главных объектов
-    num_books=Book.objects.all().count()
-    num_instances=BookInstance.objects.all().count()
+    num_books = Book.objects.all().count()
+    num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
-    num_instances_available=BookInstance.objects.filter(status__exact='a').count()
-    num_authors=Author.objects.count()  # Метод 'all()' применен по умолчанию.
+    num_instances_available = BookInstance.objects.filter(status__exact='a').count()
+    num_authors = Author.objects.count()  # Метод 'all()' применен по умолчанию.
 
     # Отрисовка HTML-шаблона index.html с данными внутри
     # переменной контекста context
 
     context = {
-        'num_books':num_books,
-        'num_instances':num_instances,
-        'num_instances_available':num_instances_available,
-        'num_authors':num_authors
+        'num_books': num_books,
+        'num_instances': num_instances,
+        'num_instances_available': num_instances_available,
+        'num_authors': num_authors
     }
     return render(request, 'index.html', context=context)
+
 
 def register_view(request):
     if request.method == "POST":
@@ -134,6 +144,7 @@ def register_view(request):
 
     return render(request, 'registration/register.html', {"form": form})
 
+
 def login_view(request):
     if request.method == "POST":
         form = LoginAuthForm(request.POST)
@@ -147,10 +158,17 @@ def login_view(request):
         form = LoginAuthForm()
     return render(request, 'registration/login.html', {"form": form})
 
+
 def logout_view(request):
     logout(request)
     return redirect('index')
 
+
 def update_variable(value):
     data = value
     return data
+
+
+def add_loan(request, book_url):
+    
+    return HttpResponseRedirect('/books')

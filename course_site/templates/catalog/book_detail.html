@@ -24,6 +24,11 @@
     <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
     {% endfor %}
   </div>
+
+  <form action="{% url 'books' %}">
+    <input type="submit" value="Participate in course (doesn't work now)" />
+</form>
+
  </div>
 </div>
 {% endblock %}
