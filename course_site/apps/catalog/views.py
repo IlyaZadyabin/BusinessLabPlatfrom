@@ -169,6 +169,9 @@ def update_variable(value):
     return data
 
 
-def add_loan(request, book_url):  # function is state of developing
-
-    return HttpResponseRedirect('/books')
+def add_loan(request, book_id):  # function is state of developing
+    record = Book.objects.get(id=book_id)
+    record.status = 'o'
+    record.borrower = request.user
+    record.save()
+    return HttpResponseRedirect('/book/' + str(book_id))

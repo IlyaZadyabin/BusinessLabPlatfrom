@@ -25,9 +25,9 @@
     {% endfor %}
   </div>
 
-  <form action="{% url 'books' %}">
-    <input type="submit" value="Participate in course (doesn't work now)" />
-</form>
+  <form action="{% url 'add_loan' book_id=book.id %}" method="GET">
+        <input type="submit" value="Participate in course">
+    </form>
 
  </div>
 </div>
