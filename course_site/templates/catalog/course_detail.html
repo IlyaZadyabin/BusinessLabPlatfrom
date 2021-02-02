@@ -9,8 +9,8 @@
   <div class="container">
   <p><strong>Author:</strong> <a href="{{ course.author.get_absolute_url }}">{{ course.author }}</a></p> <!-- author detail link not yet defined -->
   <p><strong>Summary:</strong> {{ course.summary }}</p>
-  <p><strong>ISBN:</strong> {{ course.isbn }}</p>
   <p><strong>Language:</strong> {{ course.language }}</p>
+  <p><strong>Added by:</strong> {{ course.added_by }}</p>
   <p><strong>Genre:</strong> {% for genre in course.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 
 {#  <div style="margin-left:20px;margin-top:20px">#}

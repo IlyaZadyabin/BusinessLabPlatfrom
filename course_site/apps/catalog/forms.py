@@ -35,4 +35,4 @@ class LoginAuthForm(AuthenticationForm):
 class RequestCourseForm(ModelForm):
     class Meta:
         model = Course
-        fields = ['title', 'summary', 'author']
+        fields = ['title', 'summary', 'added_by']

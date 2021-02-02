@@ -12,8 +12,8 @@
     <ul>
 
       {% for course in course_list %}
-      <li class="{% if course.is_overdue %}text-danger{% endif %}">
-        <a href="{% url 'course-detail' course.id %}">{{course.title}}</a> ({{ course.due_back }})
+      <li class="">
+        <a href="{% url 'course-detail' course.id %}">{{course.title}}</a>
       </li>
       {% endfor %}
     </ul>

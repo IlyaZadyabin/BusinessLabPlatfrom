@@ -10,8 +10,8 @@ admin.site.register(Genre)
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     # list_display = ('title', 'status', 'borrower', 'due_back')
-    list_display = ('title', 'status', 'due_back')
-    list_filter = ('status', 'due_back')
+    list_display = ('title', 'status')
+    list_filter = ('status', )
 
     # fieldsets = (
     #     (None, {

@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegisterForm, LoginAuthForm, RequestCourseForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth import logout
 from django.core.paginator import Paginator
 
@@ -182,11 +182,15 @@ def participate_in_course(request, course_id):  # function is state of developin
 
 
 def request_course(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     form = RequestCourseForm(request.POST)
     form.data = form.data.copy()
     form.data['summary'] = form.data['title']
-    form.data['title'] = form.data['title'][0:10] + '...'
-    print('SUMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY')
-    print(form)
+    form.data['title'] = form.data['title'][0:10]
+    if len(form.data['summary']) > 10:
+        form.data['title'] += '...'
+
+    form.data['added_by'] = request.us
     form.save()
     return HttpResponseRedirect('/')
