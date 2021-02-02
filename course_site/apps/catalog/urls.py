@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('participate_in_course/<int:course_id>', views.participate_in_course, name='participate_in_course'),
 
+    path('request_course/', views.request_course, name='request_course'),
 
 
 #    path('login/', views.login_view, name='login'),

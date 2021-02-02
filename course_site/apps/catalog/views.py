@@ -4,7 +4,7 @@ from .models import Course, Author, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
-from .forms import UserRegisterForm, LoginAuthForm
+from .forms import UserRegisterForm, LoginAuthForm, RequestCourseForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -59,7 +59,10 @@ class LoanedCoursesByUserListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Course.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+        # return Course.objects.filter(self.request.user in attendants.all()).filter(status__exact='o').order_by('due_back')
+        return Course.objects.filter(attendants__exact=self.request.user)
+
+    # borrower = self.request.user
 
 
 def authors_list(request):
@@ -110,9 +113,9 @@ def index2(request):
     """
     # Генерация "количеств" некоторых главных объектов
     num_courses = Course.objects.all().count()
-  # num_instances = BookInstance.objects.all().count()
+    # num_instances = BookInstance.objects.all().count()
     # Доступные книги (статус = 'a')
-   # num_instances_available = BookInstance.objects.filter(status__exact='a').count()
+    # num_instances_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors = Author.objects.count()  # Метод 'all()' применен по умолчанию.
 
     # Отрисовка HTML-шаблона index.html с данными внутри
@@ -120,8 +123,8 @@ def index2(request):
 
     context = {
         'num_courses': num_courses,
-        #'num_instances': num_instances,
-        #'num_instances_available': num_instances_available,
+        # 'num_instances': num_instances,
+        # 'num_instances_available': num_instances_available,
         'num_authors': num_authors
     }
     return render(request, 'index.html', context=context)
@@ -172,6 +175,18 @@ def update_variable(value):
 def participate_in_course(request, course_id):  # function is state of developing
     record = Course.objects.get(id=course_id)
     record.status = 'o'
-    record.borrower = request.user
+    # record.borrower = request.user
+    record.attendants.add(request.user)
     record.save()
     return HttpResponseRedirect('/course/' + str(course_id))
+
+
+def request_course(request):
+    form = RequestCourseForm(request.POST)
+    form.data = form.data.copy()
+    form.data['summary'] = form.data['title']
+    form.data['title'] = form.data['title'][0:10] + '...'
+    print('SUMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARY')
+    print(form)
+    form.save()
+    return HttpResponseRedirect('/')

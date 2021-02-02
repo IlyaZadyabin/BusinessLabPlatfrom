@@ -12,7 +12,6 @@
 <main>
       {% if course_list %}
 
-
       <div class="container">
         <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
           <div class="col">
@@ -20,18 +19,43 @@
             <div class="card-header">
               <h4 class="my-0 fw-normal">Запрос</h4>
             </div>
+
             <div class="card-body">
-              <form action="" method="post">
+              <form action="{% url 'request_course' %}" method="post">
                 {% csrf_token %}
               <ul class="list-unstyled mt-3 mb-4">
                 <div class="input-group">
-                  <span class="input-group-text">City</span>
-                  <input>
-                  <div class="invalid-feedback">
+                  <span class="input-group-text">Course description:</span>
+                   <label for="title"></label>
+                        <input id="title" type="text" name="title" value="">
+                    <div class="invalid-feedback">
                     Your username is required.
                   </div>
                 </div>
               </ul>
+
+                  <ul class="list-unstyled mt-3 mb-4">
+                <div class="input-group">
+                  <span class="input-group-text">Your first name:</span>
+                    <label for="author.first_name"></label>
+                        <input id="author.first_name" type="text" name="author.first_name" value="">
+                    <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </ul>
+
+                  <ul class="list-unstyled mt-3 mb-4">
+                <div class="input-group">
+                  <span class="input-group-text">Your second name:</span>
+                    <label for="author.second_name"></label>
+                        <input id="author.second_name" type="text" name="author.second_name" value="">
+                    <div class="invalid-feedback">
+                    Your username is required.
+                  </div>
+                </div>
+              </ul>
+
               <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Запросить новый курс</button>
               </form>
             </div>
