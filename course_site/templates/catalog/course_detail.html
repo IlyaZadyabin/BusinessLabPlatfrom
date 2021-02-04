@@ -29,6 +29,10 @@
         <input type="submit" value="Participate in course">
     </form>
 
+  <form action="{% url 'page_num' pk=course.id pn=1%}" method="GET">
+        <input type="submit" value="Next page">
+    </form>
+
  </div>
 </div>
 {% endblock %}

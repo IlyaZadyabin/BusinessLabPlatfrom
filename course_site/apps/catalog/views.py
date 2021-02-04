@@ -1,6 +1,6 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from .models import Course, Author, Genre
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Course, Author, Genre, Page
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -50,6 +50,10 @@ class CourseListView(generic.ListView):
 
 class CourseDetailView(generic.DetailView):
     model = Course
+
+
+class PageDetailView(generic.DetailView):
+    model = Page
 
 
 class LoanedCoursesByUserListView(LoginRequiredMixin, generic.ListView):
@@ -191,6 +195,28 @@ def request_course(request):
     if len(form.data['summary']) > 10:
         form.data['title'] += '...'
 
-    form.data['added_by'] = request.us
+    form.data['added_by'] = request.user
     form.save()
     return HttpResponseRedirect('/')
+
+
+def page_detail(request, pk, pn):
+    cur_course = Course.objects.get(id=pk)
+
+    try:
+        page = get_object_or_404(cur_course.pages.filter(id=pn))
+        context = {
+            'content': page.content,
+            'course': page.course,
+            'next_page': pn+1,
+            'prev_page': pn-1
+        }
+        print(page.content)
+        print(page.course)
+        return render(request, 'catalog/page_detail.html', context=context)
+    except Http404:
+        if pn > 0:
+            return page_detail(request, pk, pn - 1)
+        else:
+            return HttpResponseRedirect('/course/' + str(pk))
+
