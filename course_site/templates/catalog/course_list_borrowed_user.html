@@ -1,25 +1,83 @@
+{#{% extends "base.html" %}#}
+{##}
+{#{% block content %}#}
+{##}
+{#<div class="bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">#}
+{#        <div class="my-3 py-3 text-white ">#}
+{#          <h2 class="display-5">Your courses:</h2>#}
+{#        </div>#}
+{#        <div class="box-shadow mx-auto" style="width: 30%; height: 420px; border-radius: 21px 21px 0 0;">#}
+{##}
+{##}
+{#  {% if course_list %}#}
+{#        <ul class="list-group" >#}
+{#          {% for course in course_list %}#}
+{#              <li class="list-group-item d-flex justify-content-between align-items-center">#}
+{#                <a href="{% url 'course-detail' course.id %}">{{course.title}}</a>#}
+{#              </li>#}
+{#          {% endfor %}#}
+{#        </ul>#}
+{#    {% else %}#}
+{#            <div class="my-3 py-3 text-white ">#}
+{#            <p class="lead">You didn't participate in any course.</p>#}
+{#            </div>#}
+{#    {% endif %}#}
+{##}
+{#        </div>#}
+{#      </div>#}
+{#{% endblock %}#}
+
+
 {% extends "base.html" %}
 
-{% block content_title %}
-  <h2> My courses </h2>
-{% endblock %}
-
 {% block content %}
-<div class="row">
   <div class="container">
-
     {% if course_list %}
-    <ul>
 
-      {% for course in course_list %}
-      <li class="">
-        <a href="{% url 'course-detail' course.id %}">{{course.title}}</a>
-      </li>
-      {% endfor %}
-    </ul>
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            {% for course in course_list %}
+                <div class="carousel-item active">
+                  <div class="row">
+                    {% for course in course_list %}
+                      <div class="col">
+                        <div class="card" style="margin-top: 1em; height:15rem;">
+                         <div class="card-body">
+                            <li>
+                              <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.author}})
+                            </li>
+                          </div>
+                        </div>
+                      </div>
+                   {% endfor %}
+                  </div>
+                </div>
+            {% endfor %}
+          </div>
+
+      <!-- листать-->
+      <div class='row'>
+        <div class="col">
+          <button class="learn-more" style="transform: rotate(180deg); bottom: -1em;" href="#myCarousel" role="button" data-slide="prev">
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span>
+            </span>
+          </button>
+          <span class="sr-only">Previous</span>
+        </div>
+        <div class="col text-right">
+          <button class="learn-more" href="#myCarousel" role="button" data-slide="next" style="transform: rotate(0deg); bottom: -1em;">
+            <span class="circle" aria-hidden="true">
+              <span class="icon arrow"></span>
+            </span>
+          </button>
+          <span class="sr-only">Next</span>
+        </div>
+
+    </div>
 
     {% else %}
-      <p>You didn't participate in any course.</p>
+      <p>There are no courses in the catalog.</p>
     {% endif %}
   </div>
 </div>

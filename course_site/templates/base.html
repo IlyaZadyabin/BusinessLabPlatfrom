@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 </head>
-<body id="page-top" class="sidebar-toggled">
+<body id="page-top" class="sidebar-toggled" style="background: white">
+{% include 'navbar.html' %}
   <!-- loader of the page -->
   <div class="overlay">
     <div class="overlayDoor"></div>
@@ -35,21 +36,19 @@
   </div>
   <!-- -->
         <div id="content-wrapper" class="d-flex flex-column">
-              {% include 'navbar.html' %}
-              <div class="container">
-                  <div class="row">
-                      <div class="col">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">{% block content_title %}{% endblock %}</h6>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
+{#              <div class="container">#}
+{#                  <div class="row">#}
+{#                      <div class="col">#}
+{#                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">#}
+{#                                <h6 class="m-0 font-weight-bold text-primary">{% block content_title %}{% endblock %}</h6>#}
+{#                          </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
                   {% block content %}
                   {% endblock %}
           </div>
 
-  </div>
   <a class="scroll-to-top rounded" href="#page-top">
           <i class="fas fa-angle-up"></i>
   </a>

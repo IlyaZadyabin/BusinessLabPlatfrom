@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Course, Author, Genre, Page, Profile
+from .models import Course, Author, Page, Profile
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -20,11 +20,12 @@ def user_room(request):
 
         new_user_list = []
         for i in range(0, len(user_list)):
-            user_struct = {
-                'user': user_list[i],
-                'progress': user_list[i].profile.progress
-            }
-            new_user_list.append(user_struct)
+            if user_list[i].username != 'admin':
+                user_struct = {
+                    'user': user_list[i],
+                    'progress': user_list[i].profile.progress
+                }
+                new_user_list.append(user_struct)
 
         context = {'user_list': new_user_list}
         return render(request, "users/admin_room.html", context=context)
@@ -189,13 +190,16 @@ def update_variable(value):
     return data
 
 
-def participate_in_course(request, course_id):  # function is state of developing
+def participate_in_course(request, course_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
     record = Course.objects.get(id=course_id)
     record.status = 'o'
     # record.borrower = request.user
     record.attendants.add(request.user)
     record.save()
-    return HttpResponseRedirect('/course/' + str(course_id))
+    # return page_detail(request, course_id, 1)
+    return HttpResponseRedirect('/course/' + str(course_id) + '/' + str(1))
 
 
 def request_course(request):
@@ -247,3 +251,27 @@ def finish_course(request, course_id):
     # course.attendants.add(request.user)
     # course.save()
     return HttpResponseRedirect('/courses/')
+
+
+def my_course_list_view(request):
+    course_list = Course.objects.filter(attendants__exact=request.user)
+
+    active = True
+    new_course_list = []
+    for i in range(0, len(course_list), 3):
+        course_k = []
+        for j in range(i, i + 3):
+            if j >= len(course_list):
+                break
+            course_k.append(course_list[j])
+        course_list_k = {
+            'courses': course_k,
+            'active': active
+        }
+        if active:
+            active = False
+        new_course_list.append(course_list_k)
+
+    context = {'course_list': new_course_list}
+
+    return render(request, 'catalog/course_list.html', context=context)

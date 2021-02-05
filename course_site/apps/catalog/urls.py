@@ -17,7 +17,9 @@ urlpatterns = [
     path('course/<int:pk>/<int:pn>', views.page_detail, name='page_num'),
     path('authors/', views.authors_list, name='authors'),
     path('author/<int:pk>/', views.author_detail, name='author-detail'),
-    path('mycourses/', views.LoanedCoursesByUserListView.as_view(), name='my-borrowed'),
+    # path('mycourses/', views.LoanedCoursesByUserListView.as_view(), name='my_courses'),
+    path('mycourses/', views.my_course_list_view, name='my_courses'),
+
 
     path('participate_in_course/<int:course_id>', views.participate_in_course, name='participate_in_course'),
     path('finish_course/<int:course_id>', views.finish_course, name='finish_course'),

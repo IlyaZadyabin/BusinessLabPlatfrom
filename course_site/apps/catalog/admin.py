@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Author, Genre, Course, Page
+from .models import Author, Course, Page
 
 # admin.site.register(Course)
 admin.site.register(Author)
-admin.site.register(Genre)
 admin.site.register(Page)
-
 
 
 @admin.register(Course)

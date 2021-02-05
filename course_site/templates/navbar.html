@@ -141,7 +141,7 @@
                     </a>
                     <div class="dropdown-divider"></div>
                     {% if user.is_authenticated %}
-                     <a class="dropdown-item" href="{% url 'my-borrowed' %}">My courses</a>
+                     <a class="dropdown-item" href="{% url 'my_courses' %}">My courses</a>
                         <a class="dropdown-item" href="{% url 'user_room' %}">Cabinet</a>
                      <a class="dropdown-item" data-toggle="modal" data-target="#logoutModal">Logout</a>
                      {%  block logout_page %}

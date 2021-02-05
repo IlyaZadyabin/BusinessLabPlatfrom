@@ -9,19 +9,24 @@
         <div class="container">
           <h1>{{ page.course }}, {{ page.content }}, {{page.number}}</h1>
 
-            <form action="{% url 'page_num' pk=page.course.id pn=next_page %}" method="GET">
-                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Next page">
+        <nav class="nav nav-pills nav-fill">
+
+        <form action="{% url 'page_num' pk=page.course.id pn=prev_page %}" method="GET">
+                <input type="submit" class="btn btn-outline-primary" value="Previous page">
             </form>
 
-            <form action="{% url 'page_num' pk=page.course.id pn=prev_page %}" method="GET">
-                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Previous page">
+            <form action="{% url 'page_num' pk=page.course.id pn=next_page %}" method="GET">
+                <input type="submit" class="btn btn-outline-primary" value="Next page">
             </form>
+
 
             {% if page.number == amount_of_pages %}
             <form action="{% url 'finish_course' course_id=page.course.id %}" method="GET">
-                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Finish course">
+                <input type="submit" class="btn btn-outline-primary" value="Finish course">
             </form>
             {% endif %}
+
+          </nav>
 
         </div>
     </div>
