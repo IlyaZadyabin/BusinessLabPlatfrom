@@ -1,0 +1,18 @@
+{% extends 'base.html' %}'
+
+{% block content %}
+Hello, {{ user.username|default:'Guest' }}!
+
+    This is admin cabinet.
+
+    Here is the list of user's progress:
+
+    {% for person in user_list %}
+{#      <li class="">#}
+{#        <a href="{% url 'user' course.id %}">{{course.title}}</a>#}
+{#      </li>#}
+        User : {{ person.user}}
+        Progress: {{ person.progress }}
+      {% endfor %}
+
+{% endblock %}

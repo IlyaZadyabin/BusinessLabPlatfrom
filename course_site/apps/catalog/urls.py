@@ -20,6 +20,7 @@ urlpatterns = [
     path('mycourses/', views.LoanedCoursesByUserListView.as_view(), name='my-borrowed'),
 
     path('participate_in_course/<int:course_id>', views.participate_in_course, name='participate_in_course'),
+    path('finish_course/<int:course_id>', views.finish_course, name='finish_course'),
 
     path('request_course/', views.request_course, name='request_course'),
 

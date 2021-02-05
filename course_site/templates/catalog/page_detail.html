@@ -16,6 +16,13 @@
             <form action="{% url 'page_num' pk=page.course.id pn=prev_page %}" method="GET">
                 <input type="submit" value="Previous page">
             </form>
+
+            {% if page.number == amount_of_pages %}
+            <form action="{% url 'finish_course' course_id=page.course.id %}" method="GET">
+                <input type="submit" value="Finish course">
+            </form>
+            {% endif %}
+
         </div>
     </div>
 

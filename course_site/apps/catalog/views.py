@@ -1,6 +1,7 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Course, Author, Genre, Page
+from .models import Course, Author, Genre, Page, Profile
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
@@ -14,21 +15,33 @@ from django.core.paginator import Paginator
 def user_room(request):
     if not request.user.is_authenticated:
         return redirect('login')
-    return render(request, "users/user_room.html")
+    if request.user.username == 'admin':
+        user_list = User.objects.all()
+
+        new_user_list = []
+        for i in range(0, len(user_list)):
+            user_struct = {
+                'user': user_list[i],
+                'progress': user_list[i].profile.progress
+            }
+            new_user_list.append(user_struct)
+
+        context = {'user_list': new_user_list}
+        return render(request, "users/admin_room.html", context=context)
+    else:
+        return render(request, "users/user_room.html")
 
 
 def course_list_view(request):
     course_list = Course.objects.all()
 
-    k = 0
     active = True
     new_course_list = []
     for i in range(0, len(course_list), 3):
         course_k = []
         for j in range(i, i + 3):
-            if (j >= len(course_list)):
+            if j >= len(course_list):
                 break
-
             course_k.append(course_list[j])
         course_list_k = {
             'courses': course_k,
@@ -207,12 +220,14 @@ def page_detail(request, pk, pn):
         page = get_object_or_404(cur_course.pages.all().filter(number=pn))
         context = {
             'page': page,
-            'next_page': pn+1,
-            'prev_page': pn-1
+            'amount_of_pages': page.course.amount_of_pages(),
+            'next_page': pn + 1,
+            'prev_page': pn - 1
         }
         print(page.content)
         print(page.course)
         print(page.number)
+        print(page.course.amount_of_pages())
         return render(request, 'catalog/page_detail.html', context=context)
     except Http404:
         if pn > 0:
@@ -220,3 +235,15 @@ def page_detail(request, pk, pn):
         else:
             return HttpResponseRedirect('/course/' + str(pk))
 
+
+def finish_course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    player, created = Profile.objects.get_or_create(user=request.user)
+
+    # course.status = 'o'
+    request.user.profile.progress += 1
+    request.user.save()
+    # record.borrower = request.user
+    # course.attendants.add(request.user)
+    # course.save()
+    return HttpResponseRedirect('/courses/')

@@ -4,6 +4,8 @@ from django.urls import reverse  # Used to generate URLs by reversing the URL pa
 import uuid  # Required for unique course instances
 from django.contrib.auth.models import User
 from datetime import date
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from course_site import settings
 
@@ -21,6 +23,25 @@ class Genre(models.Model):
         return self.name
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    progress = models.IntegerField(default=0, blank=True)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
 class Page(models.Model):
     number = models.IntegerField(null=True, blank=True)
     course = models.ForeignKey('Course', related_name="pages", on_delete=models.SET_NULL, null=True, blank=True)
@@ -36,7 +57,7 @@ class Course(models.Model):
     added_by = models.ForeignKey(User,
                                  null=True, blank=True, on_delete=models.SET_NULL, related_name="course_added_by")
     attendants = models.ManyToManyField(User, null=True, blank=True)
-   #  pages = models.ManyToManyField(Page, null=True, blank=True, related_name="page")
+    #  pages = models.ManyToManyField(Page, null=True, blank=True, related_name="page")
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -46,6 +67,9 @@ class Course(models.Model):
 
     status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m',
                               help_text='Book availability')
+
+    def amount_of_pages(self, *args, **kwargs):
+        return self.pages.count()
 
     def __str__(self):
         """
