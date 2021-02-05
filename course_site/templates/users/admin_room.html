@@ -1,18 +1,24 @@
 {% extends 'base.html' %}'
 
 {% block content %}
-Hello, {{ user.username|default:'Guest' }}!
 
-    This is admin cabinet.
+<div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+        <div class="my-3 py-3 text-white ">
+          <h2 class="display-5">This is admin cabinet.</h2>
+          <p class="lead">Here is the list of user's progress:</p>
+        </div>
+        <div class="box-shadow mx-auto" style="width: 30%; height: 400px; border-radius: 21px 21px 0 0;">
 
-    Here is the list of user's progress:
+        <ul class="list-group" >
+            {% for person in user_list %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ person.user}}
+                    <span class="badge badge-primary badge-pill">{{ person.progress }}</span>
+                </li>
+            {% endfor %}
+        </ul>
 
-    {% for person in user_list %}
-{#      <li class="">#}
-{#        <a href="{% url 'user' course.id %}">{{course.title}}</a>#}
-{#      </li>#}
-        User : {{ person.user}}
-        Progress: {{ person.progress }}
-      {% endfor %}
+        </div>
+      </div>
 
 {% endblock %}

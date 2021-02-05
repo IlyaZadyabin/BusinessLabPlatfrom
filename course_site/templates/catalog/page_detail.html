@@ -10,16 +10,16 @@
           <h1>{{ page.course }}, {{ page.content }}, {{page.number}}</h1>
 
             <form action="{% url 'page_num' pk=page.course.id pn=next_page %}" method="GET">
-                <input type="submit" value="Next page">
+                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Next page">
             </form>
 
             <form action="{% url 'page_num' pk=page.course.id pn=prev_page %}" method="GET">
-                <input type="submit" value="Previous page">
+                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Previous page">
             </form>
 
             {% if page.number == amount_of_pages %}
             <form action="{% url 'finish_course' course_id=page.course.id %}" method="GET">
-                <input type="submit" value="Finish course">
+                <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Finish course">
             </form>
             {% endif %}
 

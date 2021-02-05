@@ -9,28 +9,15 @@
   <div class="container">
   <p><strong>Author:</strong> <a href="{{ course.author.get_absolute_url }}">{{ course.author }}</a></p> <!-- author detail link not yet defined -->
   <p><strong>Summary:</strong> {{ course.summary }}</p>
-  <p><strong>Language:</strong> {{ course.language }}</p>
   <p><strong>Added by:</strong> {{ course.added_by }}</p>
   <p><strong>Genre:</strong> {% for genre in course.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
 
-{#  <div style="margin-left:20px;margin-top:20px">#}
-{#    <h4>Copies</h4>#}
-{##}
-{#    {% for copy in course.courseinstance_set.all %}#}
-{#    <hr>#}
-{#    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>#}
-{#    {% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}#}
-{#    <p><strong>Imprint:</strong> {{copy.imprint}}</p>#}
-{#    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>#}
-{#    {% endfor %}#}
-{#  </div>#}
-
   <form action="{% url 'participate_in_course' course_id=course.id %}" method="GET">
-        <input type="submit" class="w-100 btn btn-lg btn-outline-primary" value="Participate in course">
+        <input type="submit" class="w-20 btn btn-lg btn-outline-primary" value="Participate in course">
     </form>
 
   <form action="{% url 'page_num' pk=course.id pn=1%}" method="GET">
-        <input type="submit"  class="w-100 btn btn-lg btn-outline-primary" value="Next page">
+        <input type="submit"  class="w-20 btn btn-lg btn-outline-primary" value="Next page">
     </form>
 
  </div>
