@@ -26,11 +26,11 @@
 {#  </div>#}
 
   <form action="{% url 'participate_in_course' course_id=course.id %}" method="GET">
-        <input type="submit" value="Participate in course">
+        <input type="submit" class="w-100 btn btn-lg btn-outline-primary" value="Participate in course">
     </form>
 
   <form action="{% url 'page_num' pk=course.id pn=1%}" method="GET">
-        <input type="submit" value="Next page">
+        <input type="submit"  class="w-100 btn btn-lg btn-outline-primary" value="Next page">
     </form>
 
  </div>

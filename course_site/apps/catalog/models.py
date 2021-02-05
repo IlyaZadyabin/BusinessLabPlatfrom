@@ -22,7 +22,8 @@ class Genre(models.Model):
 
 
 class Page(models.Model):
-    course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True, blank=True)
+    number = models.IntegerField(null=True, blank=True)
+    course = models.ForeignKey('Course', related_name="pages", on_delete=models.SET_NULL, null=True, blank=True)
     content = models.TextField(max_length=1000, help_text="Enter a course content", blank=True)
 
 
@@ -35,7 +36,7 @@ class Course(models.Model):
     added_by = models.ForeignKey(User,
                                  null=True, blank=True, on_delete=models.SET_NULL, related_name="course_added_by")
     attendants = models.ManyToManyField(User, null=True, blank=True)
-    pages = models.ManyToManyField(Page, null=True, blank=True, related_name="page")
+   #  pages = models.ManyToManyField(Page, null=True, blank=True, related_name="page")
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),

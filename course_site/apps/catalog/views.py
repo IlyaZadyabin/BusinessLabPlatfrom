@@ -204,15 +204,15 @@ def page_detail(request, pk, pn):
     cur_course = Course.objects.get(id=pk)
 
     try:
-        page = get_object_or_404(cur_course.pages.filter(id=pn))
+        page = get_object_or_404(cur_course.pages.all().filter(number=pn))
         context = {
-            'content': page.content,
-            'course': page.course,
+            'page': page,
             'next_page': pn+1,
             'prev_page': pn-1
         }
         print(page.content)
         print(page.course)
+        print(page.number)
         return render(request, 'catalog/page_detail.html', context=context)
     except Http404:
         if pn > 0:
