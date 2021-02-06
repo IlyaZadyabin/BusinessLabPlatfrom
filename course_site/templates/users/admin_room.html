@@ -13,7 +13,15 @@
             {% for person in user_list %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ person.user}}
-                    <span class="badge badge-primary badge-pill">{{ person.progress }}</span>
+                    <span class="badge badge-primary badge-pill" style="background-color:
+                    {% if person.progress >= 5%}
+                        #be2617
+                    {% elif person.progress >= 3 %}
+                         rgb(68,164,238)
+                    {% else %}
+                        rgb(68,238,91)
+                    {% endif %}
+                         ">{{ person.progress }}</span>
                 </li>
             {% endfor %}
         </ul>
