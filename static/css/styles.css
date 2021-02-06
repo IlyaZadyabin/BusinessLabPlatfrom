@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700|Roboto:300,400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Roboto:900");
+
 body {
   margin: 0;
   padding: 0;
@@ -129,4 +131,11 @@ body {
     #main {
       padding-top: calc(104px);
     }
+}
+
+
+a {
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+  background-color: transparent;
 }

@@ -12,7 +12,7 @@
         <ul class="list-group" >
             {% for person in user_list %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ person.user}}
+                   <a href="{{ person.user.profile.get_absolute_url }}"> {{ person.user}}</a>
                     <span class="badge badge-primary badge-pill" style="background-color:
                     {% if person.progress >= 5%}
                         #be2617

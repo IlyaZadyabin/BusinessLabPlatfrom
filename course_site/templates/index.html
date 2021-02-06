@@ -8,30 +8,26 @@
       <section style="background:white !important" class="jumbotron text-center" >
         <div class="container">
           <h1 class="jumbotron-heading" style="color: black">Список курсов</h1>
-          <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-
-{#            <a href="#" class="btn btn-primary my-2">Main call to action</a>#}
-{#            <a href="#" class="btn btn-secondary my-2">Secondary action</a>#}
+          <p class="lead text-muted">Здесь вы можете изучать курсы, написанные профессиональными авторами, или предложить свою собственную бизнес-идею и найти команду</p>
 
               <div class="card-body">
+
+
               <form action="{% url 'request_course' %}" method="post">
                 {% csrf_token %}
-              <ul class="list-unstyled mt-3 mb-4">
-                <div class="input-group">
-                  <span class="input-group-text">Описание курса:</span>
+              <ul class="list-unstyled mt-3 mb-4" style="display: inline-flex;">
+                <div class="input-group mb-3">
                    <label for="title"></label>
-                        <input id="title" type="text" name="title" value="">
-                    <div class="invalid-feedback">
-                    Your username is required.
-                  </div>
+                    <input type="text" class="form-control" id="title" placeholder="Описание" required="">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary my-0">Предложить идею</button>
+                    </div>
+
                 </div>
               </ul>
-
-{#                  <a href="#" class="btn btn-primary my-2">Main call to action</a>#}
-              <button type="submit" class="btn btn-primary my-2">Запросить новый курс</button>
               </form>
-            </div>
 
+            </div>
         </div>
       </section>
 
@@ -39,13 +35,42 @@
         <div class="container">
           <div class="row">
 
+          <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" src="../../static/img/Test2.png" data-holder-rendered="true" style="height: 225px; width: 100%; display: block;">
+                <div class="card-body">
+                  <p class="card-text">Как заработать на автоматизации маркетинга</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'course-detail' pk=39 %}" class="btn btn-sm btn-outline-secondary">View</a>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">90 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+                    <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" src="../../static/img/img_3.png" data-holder-rendered="true" style="height: 225px; width: 100%; display: block;">
+                <div class="card-body">
+                  <p class="card-text">Разработка приложений на java</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="{% url 'course-detail' pk=39 %}" class="btn btn-sm btn-outline-secondary">View</a>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">210 mins</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
                {% if course_list %}
 
                    {% for course_list_k in course_list %}
                     {% for course in course_list_k.courses %}
-
-{#                      <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.author}})#}
-                        {#            <a href="#" class="btn btn-primary my-2">Main call to action</a>#}
 
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">

@@ -17,6 +17,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
 
+    def get_absolute_url(self):
+        return reverse('user-detail', args=[str(self.id)])
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -32,14 +35,15 @@ def save_user_profile(sender, instance, **kwargs):
 class Page(models.Model):
     number = models.IntegerField(null=True, blank=True)
     course = models.ForeignKey('Course', related_name="pages", on_delete=models.SET_NULL, null=True, blank=True)
-    content = models.TextField(max_length=1000, help_text="Enter a course content", blank=True)
+    content = models.TextField(help_text="Enter a course content", blank=True)
 
 
 class Course(models.Model):
     title = models.CharField(max_length=200, blank=True)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True, blank=True)
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book", blank=True)
-
+    summary2 = models.TextField(max_length=1000, help_text="Enter a brief description of the book", blank=True)
+    summary3 = models.TextField(max_length=1000, help_text="Enter a brief description of the book", blank=True)
     added_by = models.ForeignKey(User,
                                  null=True, blank=True, on_delete=models.SET_NULL, related_name="course_added_by")
     attendants = models.ManyToManyField(User, null=True, blank=True)

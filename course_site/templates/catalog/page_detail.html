@@ -7,7 +7,15 @@
 {% block content %}
     <div class="row">
         <div class="container">
-          <h1>{{ page.course }}, {{ page.content }}, {{page.number}}</h1>
+
+        <div class="blog-post">
+            <h2 class="blog-post-title" style="color: black">{{ page.course.title}}</h2>
+            {% if page.course.author %}
+            <p class="blog-post-meta">December 14, 2013 by <a href="{{ page.course.author.get_absolute_url }}">{{ page.course.author}}</a></p>
+            {% endif %}
+        {{ page.content |safe }}
+          </div>
+
 
         <nav class="nav nav-pills nav-fill">
 

@@ -275,3 +275,11 @@ def my_course_list_view(request):
     context = {'course_list': new_course_list}
 
     return render(request, 'catalog/course_list.html', context=context)
+
+
+def user_detail(request, pk):
+    user = User.objects.all()[pk - 1]
+    context = {
+        'user': user
+    }
+    return render(request, 'catalog/user_detail.html', context=context)

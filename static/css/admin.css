@@ -159,13 +159,13 @@ sup {
 }
 
 a {
-  color: #4e73df;
+  color: rgba(0, 0, 0, 0.9);
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #224abe;
+  color: #0e0e0e;
   text-decoration: underline;
 }
 
@@ -2384,19 +2384,19 @@ fieldset:disabled a.btn {
 }
 
 .btn-secondary {
-  color: #fff;
-  background-color: #858796;
-  border-color: #858796;
+  color: #000000;
+  background-color: #ffffff;
+  border: .05rem solid #fff;
 }
 
 .btn-secondary:hover {
-  color: #fff;
-  background-color: #717384;
+  color: #000000;
+  background-color: #ffffff;
   border-color: #6b6d7d;
 }
 
 .btn-secondary:focus, .btn-secondary.focus {
-  color: #fff;
+  color: #000000;
   background-color: #717384;
   border-color: #6b6d7d;
   box-shadow: 0 0 0 0.2rem rgba(151, 153, 166, 0.5);
@@ -2675,12 +2675,12 @@ fieldset:disabled a.btn {
 }
 
 .btn-outline-secondary {
-  color: #858796;
-  border-color: #858796;
+  color: #000000;
+  border-color: #ffffff;
 }
 
 .btn-outline-secondary:hover {
-  color: #fff;
+  color: #000000;
   background-color: #858796;
   border-color: #858796;
 }
