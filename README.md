@@ -1,20 +1,20 @@
-# Бизнес-лаб платформа
+# Business-lab platform
 
-## Запуск
+## Running the project
 
-Для запуска требуется зайти в корневую папку и запустить 
+To run the project, navigate to the root folder and execute:
 
     python3 manage.py runserver
-Далее зайти на `localhost:8000` и можно пользоваться.
+Then go to `localhost:8000` and you can start using it.
 
-## Описание веб сервиса
-Сайт обладает следующей функциональностью:
+## Web Service Description
+The website has the following functionality:
 
- - Публикация бизнес идей 
- - Создание обучающих курсов 
- - Отслеживание прогресса участников через портал админа 
- - Возможность связаться с участником проекта
- - Цветная подсветка участников разных уровней
+ - Publishing business ideas 
+ - Creating educational courses 
+ - Tracking participant progress through the admin portal 
+ - Ability to contact project participants
+ - Color highlighting for participants of different levels
  
 ![alt text](screenshots/1.png)
 ![alt text](screenshots/3.png)
